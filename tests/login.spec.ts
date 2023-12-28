@@ -31,7 +31,7 @@ test.describe('the user login to Demobank', () => {
     await page.getByTestId('login-input').fill('tester12');
     await page.getByTestId('password-input').click();
     await page.getByTestId('password-input').fill('tet');
-    await page.getByRole('heading', { name: 'Wersja demonstracyjna serwisu' }).click();
+    await page.getByTestId('password-input').blur();
 
     await expect(page.getByTestId('error-login-password')).toHaveText('hasło ma min. 8 znaków');
 
