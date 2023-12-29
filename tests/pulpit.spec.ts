@@ -22,9 +22,9 @@ test.describe('pulpit tests', () => {
         await page.getByTestId('password-input').fill('testtest');
         await page.getByTestId('login-button').click();
         await page.locator('#widget_1_topup_receiver').selectOption('503 xxx xxx');
-  await page.locator('#widget_1_topup_amount').fill('30');
-  await page.locator('#uniform-widget_1_topup_agreement span').click();
-  await page.getByRole('button', { name: 'doładuj telefon' }).click();
+        await page.locator('#widget_1_topup_amount').fill('30');
+        await page.locator('#uniform-widget_1_topup_agreement span').click();
+        await page.getByRole('button', { name: 'doładuj telefon' }).click();
 
         await expect(page.locator('#show_messages')).toHaveText('Doładowanie wykonane! 30,00PLN na numer 503 xxx xxx');
     });
