@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('pulpit tests', () => {
-  test('quick payment with correct data', async ({ page }) => {
+  test.only('quick payment with correct data', async ({ page }) => {
     const url = 'https://demo-bank.vercel.app/';
     const userId = 'tester12';
     const userPassword = 'testtest';
