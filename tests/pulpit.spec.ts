@@ -27,6 +27,7 @@ test.describe('pulpit tests', () => {
   test('successful mobile top-up', async ({ page }) => {
     const topupReceiver1 = '503 xxx xxx';
     const topupAmount = '30';
+    const expectedMessage = `Doładowanie wykonane! ${topupAmount},00PLN na numer ${topupReceiver1}`;
 
     await page.goto(url);
     await page.getByTestId('login-input').fill(userId);
@@ -37,8 +38,6 @@ test.describe('pulpit tests', () => {
     await page.locator('#uniform-widget_1_topup_agreement span').click();
     await page.getByRole('button', { name: 'doładuj telefon' }).click();
 
-    await expect(page.locator('#show_messages')).toHaveText(
-      `Doładowanie wykonane! ${topupAmount},00PLN na numer ${topupReceiver1}`,
-    );
+    await expect(page.locator('#show_messages')).toHaveText(expectedMessage);
   });
 });

@@ -6,7 +6,7 @@ test.describe('the user login to Demobank', () => {
   const userPassword = 'testtest';
   const expectedUserName = 'Jan Demobankowy';
 
-  test.only('login with correct credentials', async ({ page }) => {
+  test('login with correct credentials', async ({ page }) => {
     await page.goto(url);
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
@@ -15,7 +15,7 @@ test.describe('the user login to Demobank', () => {
     await expect(page.getByTestId('user-name')).toHaveText(expectedUserName);
   });
 
-  test.only('login with incorrect user name', async ({ page }) => {
+  test('login with incorrect user name', async ({ page }) => {
     await page.goto(url);
     await page.getByTestId('login-input').fill('teste');
     await page.getByTestId('password-input').click();
@@ -25,7 +25,7 @@ test.describe('the user login to Demobank', () => {
     );
   });
 
-  test.only('unsuccessful login with too short password', async ({ page }) => {
+  test('unsuccessful login with too short password', async ({ page }) => {
     await page.goto(url);
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill('tet');
