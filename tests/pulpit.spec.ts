@@ -1,7 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('pulpit tests', () => {
-  const url = 'https://demo-bank.vercel.app/';
+  test.beforeEach(async ({ page }) => {
+    const url = 'https://demo-bank.vercel.app/';
+    await page.goto(url);
+  });
+ 
+ 
   const userId = 'tester12';
   const userPassword = 'testtest';
 
@@ -10,7 +15,7 @@ test.describe('pulpit tests', () => {
     const transferAmount = '150';
     const transferTitle = 'zwrot';
 
-    await page.goto(url);
+   
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
@@ -29,7 +34,6 @@ test.describe('pulpit tests', () => {
     const topupAmount = '30';
     const expectedMessage = `Doładowanie wykonane! ${topupAmount},00PLN na numer ${topupReceiver1}`;
 
-    await page.goto(url);
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
