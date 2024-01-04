@@ -40,4 +40,19 @@ test.describe('pulpit tests', () => {
 
     await expect(page.locator('#show_messages')).toHaveText(expectedMessage);
   });
+  
+  test('correct balance aftersuccessful mobile top-up', async ({ page }) => {
+    const topupReceiver1 = '503 xxx xxx';
+    const topupAmount = '30';
+    const initialBalance = await page.locator('#money_value').innerText();
+    const expectedBalance = Number(initialBalance) - Number(topupAmount);
+
+    await page.locator('#widget_1_topup_receiver').selectOption(topupReceiver1);
+    await page.locator('#widget_1_topup_amount').fill(topupAmount);
+    await page.locator('#uniform-widget_1_topup_agreement span').click();
+    await page.getByRole('button', { name: 'doładuj telefon' }).click();
+    await page.getByTestId('close-button').click();
+
+    await expect(page.locator('#money_value')).toHaveText(`${expectedBalance}`);
+  });
 });
