@@ -3,14 +3,13 @@ import { loginData, userId } from '../test-data/login.data';
 
 test.describe('the user login to Demobank', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/');
   });
-  
-  
+
   test('login with correct credentials', async ({ page }) => {
     const userId = loginData.userId;
-  const userPassword = loginData.password;
-  const expectedUserName = 'Jan Demobankowy';
+    const userPassword = loginData.password;
+    const expectedUserName = 'Jan Demobankowy';
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
@@ -19,7 +18,6 @@ test.describe('the user login to Demobank', () => {
   });
 
   test('login with too short user name', async ({ page }) => {
-   
     await page.getByTestId('login-input').fill('teste');
     await page.getByTestId('password-input').click();
 

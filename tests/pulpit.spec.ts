@@ -5,14 +5,12 @@ test.describe('pulpit tests', () => {
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.password;
-   
-    await page.goto('/')
+
+    await page.goto('/');
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
   });
- 
- 
 
   test('quick payment with correct data', async ({ page }) => {
     const receiverId = '2';
@@ -41,7 +39,7 @@ test.describe('pulpit tests', () => {
 
     await expect(page.locator('#show_messages')).toHaveText(expectedMessage);
   });
-  
+
   test('correct balance aftersuccessful mobile top-up', async ({ page }) => {
     const topupReceiver1 = '503 xxx xxx';
     const topupAmount = '30';
