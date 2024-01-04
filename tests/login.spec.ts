@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { loginData, userId } from '../test-data/login.data';
 
 test.describe('the user login to Demobank', () => {
   test.beforeEach(async ({ page }) => {
@@ -7,8 +8,8 @@ test.describe('the user login to Demobank', () => {
   
   
   test('login with correct credentials', async ({ page }) => {
-    const userId = 'tester12';
-  const userPassword = 'testtest';
+    const userId = loginData.userId;
+  const userPassword = loginData.password;
   const expectedUserName = 'Jan Demobankowy';
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
