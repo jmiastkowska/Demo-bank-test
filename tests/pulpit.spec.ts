@@ -1,17 +1,16 @@
 import { test, expect } from '@playwright/test';
+import { loginData } from '../test-data/login.data';
 
 test.describe('pulpit tests', () => {
   test.beforeEach(async ({ page }) => {
-    const userId = 'tester12';
-    const userPassword = 'testtest';
-   
-    await page.goto('/')
+    const userId = loginData.userId;
+    const userPassword = loginData.password;
+
+    await page.goto('/');
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
   });
- 
- 
 
   test('quick payment with correct data', async ({ page }) => {
     const receiverId = '2';
@@ -39,5 +38,20 @@ test.describe('pulpit tests', () => {
     await page.getByRole('button', { name: 'doładuj telefon' }).click();
 
     await expect(page.locator('#show_messages')).toHaveText(expectedMessage);
+  });
+
+  test('correct balance aftersuccessful mobile top-up', async ({ page }) => {
+    const topupReceiver1 = '503 xxx xxx';
+    const topupAmount = '30';
+    const initialBalance = await page.locator('#money_value').innerText();
+    const expectedBalance = Number(initialBalance) - Number(topupAmount);
+
+    await page.locator('#widget_1_topup_receiver').selectOption(topupReceiver1);
+    await page.locator('#widget_1_topup_amount').fill(topupAmount);
+    await page.locator('#uniform-widget_1_topup_agreement span').click();
+    await page.getByRole('button', { name: 'doładuj telefon' }).click();
+    await page.getByTestId('close-button').click();
+
+    await expect(page.locator('#money_value')).toHaveText(`${expectedBalance}`);
   });
 });
