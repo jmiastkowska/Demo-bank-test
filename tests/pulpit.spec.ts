@@ -28,7 +28,7 @@ test.describe('pulpit tests', () => {
     await pulpitPage.buttonWykonaj.click();
     await pulpitPage.buttonClose.click();
 
-    await expect(pulpitPage.showMessages).toHaveText(
+    await expect(pulpitPage.messagesText).toHaveText(
       `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - ${transferTitle}`,
     );
   });
@@ -41,10 +41,10 @@ test.describe('pulpit tests', () => {
     const pulpitPage = new PulpitPage(page);
     await pulpitPage.topupReceiver1Dropdown.selectOption(topupReceiver1);
     await pulpitPage.topupAmountInput.fill(topupAmount);
-    await pulpitPage.topUpAgreementSpan.click();
-    await pulpitPage.buttonDoladujTel.click();
+    await pulpitPage.topUpAgreementCheckbox.click();
+    await pulpitPage.topupExecuteButton.click();
 
-    await expect(pulpitPage.showMessages).toHaveText(expectedMessage);
+    await expect(pulpitPage.messagesText).toHaveText(expectedMessage);
   });
 
   test('correct balance aftersuccessful mobile top-up', async ({ page }) => {
@@ -56,8 +56,8 @@ test.describe('pulpit tests', () => {
     const pulpitPage = new PulpitPage(page);
     await pulpitPage.topupReceiver1Dropdown.selectOption(topupReceiver1);
     await pulpitPage.topupAmountInput.fill(topupAmount);
-    await pulpitPage.topUpAgreementSpan.click();
-    await pulpitPage.buttonDoladujTel.click();
+    await pulpitPage.topUpAgreementCheckbox.click();
+    await pulpitPage.topupExecuteButton.click();
     await pulpitPage.buttonClose.click();
 
     await expect(pulpitPage.moneyValue).toHaveText(`${expectedBalance}`);
