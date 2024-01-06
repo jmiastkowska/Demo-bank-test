@@ -17,4 +17,5 @@ export class PulpitPage {
   moneyValue = this.page.locator('#money_value');
 
   messagesText = this.page.locator('#show_messages');
+  userNameText = this.page.getByTestId('user-name');
 }
