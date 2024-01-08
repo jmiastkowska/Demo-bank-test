@@ -22,7 +22,11 @@ test.describe('pulpit tests', () => {
     const transferAmount = '150';
     const transferTitle = 'zwrot';
 
-    await pulpitPage.executeQuickPayment(receiverId, transferAmount, transferTitle);
+    await pulpitPage.executeQuickPayment(
+      receiverId,
+      transferAmount,
+      transferTitle,
+    );
 
     await expect(pulpitPage.messagesText).toHaveText(
       `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - ${transferTitle}`,
@@ -45,8 +49,8 @@ test.describe('pulpit tests', () => {
     const initialBalance = await page.locator('#money_value').innerText();
     const expectedBalance = Number(initialBalance) - Number(topupAmount);
 
-    await pulpitPage.executeMobileTopUp(topupReceiver1,topupAmount);
- 
+    await pulpitPage.executeMobileTopUp(topupReceiver1, topupAmount);
+
     await expect(pulpitPage.moneyValue).toHaveText(`${expectedBalance}`);
   });
 });
