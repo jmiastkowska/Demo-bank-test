@@ -5,19 +5,21 @@ import { PaymentPage } from '../pages/payment.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('payment tests', () => {
+  let paymentPage: PaymentPage;
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.password;
 
     await page.goto('/');
     const loginPage = new LoginPage(page);
-
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    
+    await loginPage.login(userId, userPassword);
     
     const pulpitPage = new PulpitPage(page);
     await pulpitPage.sideMenu.paymentButton.click();
+    
+    paymentPage = new PaymentPage(page);
   });
 
   test('simple payment', async ({ page }) => {
@@ -27,7 +29,7 @@ test.describe('payment tests', () => {
     const transferAmount = '111';
     const expectedMessage = 'Przelew wykonany! 111,00PLN dla Jan Kowalski';
     //Act
-    const paymentPage = new PaymentPage(page);
+    
     await paymentPage.transferReceiverInput.fill(transferReceiver);
     await paymentPage.transferAccountInput.fill(transferAccount);
     await paymentPage.transfetAmountInput.fill(transferAmount);

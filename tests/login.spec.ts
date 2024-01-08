@@ -4,8 +4,10 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('the user login to Demobank', () => {
+  let loginPage: LoginPage;
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
+    loginPage = new LoginPage(page);
   });
 
   test('login with correct credentials', async ({ page }) => {
@@ -13,17 +15,16 @@ test.describe('the user login to Demobank', () => {
     const userPassword = loginData.password;
     const expectedUserName = 'Jan Demobankowy';
 
-    const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+
+    await loginPage.login(userId, userPassword);
+ 
 
     const pulpitPage = new PulpitPage(page);
     await expect(pulpitPage.userNameText).toHaveText(expectedUserName);
   });
 
   test('login with too short user name', async ({ page }) => {
-    const loginPage = new LoginPage(page);
+   
     await loginPage.loginInput.fill('teste');
     await loginPage.passwordInput.click();
 
@@ -34,8 +35,7 @@ test.describe('the user login to Demobank', () => {
 
   test('unsuccessful login with too short password', async ({ page }) => {
     const incorrectPassword = 'tet';
-    const loginPage = new LoginPage(page);
-
+    
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(incorrectPassword);
     await loginPage.passwordInput.blur();
