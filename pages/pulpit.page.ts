@@ -16,9 +16,25 @@ export class PulpitPage {
   topUpAgreementCheckbox = this.page.locator(
     '#uniform-widget_1_topup_agreement span',
   );
+
   topupExecuteButton = this.page.getByRole('button', { name: 'doładuj telefon' });
   moneyValue = this.page.locator('#money_value');
 
   messagesText = this.page.locator('#show_messages');
   userNameText = this.page.getByTestId('user-name');
+
+  async quickPayment(receiverId:string, transferAmount:string, transferTitle:string): Promise <void>{
+    await this.receiverIdDropdown.selectOption(receiverId);
+    await this.transferAmountInput.fill(transferAmount);
+    await this.transferTitleInput.fill(transferTitle);
+    await this.buttonWykonaj.click();
+    await this.buttonClose.click();
+  }
+
+  async mobileTopUp (topupReceiver1:string, topupAmount:string): Promise<void>{
+    await this.topupReceiver1Dropdown.selectOption(topupReceiver1);
+    await this.topupAmountInput.fill(topupAmount);
+    await this.topUpAgreementCheckbox.click();
+    await this.topupExecuteButton.click();
+  }
 }

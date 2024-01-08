@@ -15,7 +15,7 @@ test.describe('payment tests', () => {
     const loginPage = new LoginPage(page);
     
     await loginPage.login(userId, userPassword);
-    
+
     const pulpitPage = new PulpitPage(page);
     await pulpitPage.sideMenu.paymentButton.click();
     
@@ -30,11 +30,8 @@ test.describe('payment tests', () => {
     const expectedMessage = 'Przelew wykonany! 111,00PLN dla Jan Kowalski';
     //Act
     
-    await paymentPage.transferReceiverInput.fill(transferReceiver);
-    await paymentPage.transferAccountInput.fill(transferAccount);
-    await paymentPage.transfetAmountInput.fill(transferAmount);
-    await paymentPage.transferButton.click();
-    await paymentPage.closeButton.click();
+    await paymentPage.makeTransfer(transferReceiver, transferAccount, transferAmount);
+   
 
     //Assert
     await expect(paymentPage.MessageText).toHaveText(expectedMessage);

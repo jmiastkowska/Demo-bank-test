@@ -4,7 +4,7 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('pulpit tests', () => {
-  let pulpitPage:PulpitPage;
+  let pulpitPage: PulpitPage;
 
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
@@ -22,11 +22,7 @@ test.describe('pulpit tests', () => {
     const transferAmount = '150';
     const transferTitle = 'zwrot';
 
-    await pulpitPage.receiverIdDropdown.selectOption(receiverId);
-    await pulpitPage.transferAmountInput.fill(transferAmount);
-    await pulpitPage.transferTitleInput.fill(transferTitle);
-    await pulpitPage.buttonWykonaj.click();
-    await pulpitPage.buttonClose.click();
+    await pulpitPage.quickPayment(receiverId, transferAmount, transferTitle);
 
     await expect(pulpitPage.messagesText).toHaveText(
       `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - ${transferTitle}`,
@@ -38,10 +34,7 @@ test.describe('pulpit tests', () => {
     const topupAmount = '30';
     const expectedMessage = `Doładowanie wykonane! ${topupAmount},00PLN na numer ${topupReceiver1}`;
 
-    await pulpitPage.topupReceiver1Dropdown.selectOption(topupReceiver1);
-    await pulpitPage.topupAmountInput.fill(topupAmount);
-    await pulpitPage.topUpAgreementCheckbox.click();
-    await pulpitPage.topupExecuteButton.click();
+    await pulpitPage.mobileTopUp(topupReceiver1, topupAmount);
 
     await expect(pulpitPage.messagesText).toHaveText(expectedMessage);
   });
@@ -52,13 +45,8 @@ test.describe('pulpit tests', () => {
     const initialBalance = await page.locator('#money_value').innerText();
     const expectedBalance = Number(initialBalance) - Number(topupAmount);
 
-
-    await pulpitPage.topupReceiver1Dropdown.selectOption(topupReceiver1);
-    await pulpitPage.topupAmountInput.fill(topupAmount);
-    await pulpitPage.topUpAgreementCheckbox.click();
-    await pulpitPage.topupExecuteButton.click();
-    await pulpitPage.buttonClose.click();
-
+    await pulpitPage.mobileTopUp(topupReceiver1,topupAmount);
+ 
     await expect(pulpitPage.moneyValue).toHaveText(`${expectedBalance}`);
   });
 });
