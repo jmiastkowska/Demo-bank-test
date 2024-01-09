@@ -15,16 +15,13 @@ test.describe('the user login to Demobank', () => {
     const userPassword = loginData.password;
     const expectedUserName = 'Jan Demobankowy';
 
-
     await loginPage.login(userId, userPassword);
- 
 
     const pulpitPage = new PulpitPage(page);
     await expect(pulpitPage.userNameText).toHaveText(expectedUserName);
   });
 
   test('login with too short user name', async ({ page }) => {
-   
     await loginPage.loginInput.fill('teste');
     await loginPage.passwordInput.click();
 
@@ -35,11 +32,22 @@ test.describe('the user login to Demobank', () => {
 
   test('unsuccessful login with too short password', async ({ page }) => {
     const incorrectPassword = 'tet';
-    
+
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(incorrectPassword);
     await loginPage.passwordInput.blur();
 
     await expect(loginPage.passwordError).toHaveText('hasło ma min. 8 znaków');
+  });
+
+  test('correct logout', async ({ page }) => {
+    const userId = loginData.userId;
+    const userPassword = loginData.password;
+    const expectedWelcomeText = 'Wersja demonstracyjna serwisu Demobank';
+
+    await loginPage.login(userId, userPassword);
+    await page.getByTestId('logout-button').click();
+
+    await expect(loginPage.welcomeText).toHaveText(expectedWelcomeText);
   });
 });
